@@ -20,10 +20,10 @@ export const App = () => {
   }, [contacts]);
 
   // Функція для додавання нового контакту
-  const handleAddContact = (name, number) => {
+  const handleAddContact = newContact => {
     // Перевірка на дублікат імені контакту
     const isDuplicateName = contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
 
     if (isDuplicateName) {
@@ -31,15 +31,18 @@ export const App = () => {
       return;
     }
 
-    // Створення нового контакту і оновлення стану контактів
-    const contact = { id: nanoid(), name, number };
-    setContacts([...contacts, contact]);
+    // Створення нового контакту з переданими даними і генерацією id
+    const contact = { id: nanoid(), ...newContact };
+
+    // Оновлення стану контактів
+    setContacts(prevContacts => [...prevContacts, contact]);
   };
 
   // Функція для видалення контакту
   const handleDeleteContact = contactId => {
-    // Оновлення стану контактів шляхом фільтрації за ідентифікатором
-    setContacts(contacts.filter(contact => contact.id !== contactId));
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== contactId)
+    );
   };
 
   // Функція для обробки зміни фільтра

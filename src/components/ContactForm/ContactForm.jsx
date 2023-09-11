@@ -19,7 +19,7 @@ export const ContactForm = ({ onAddContact }) => {
   const handleSubmit = event => {
     event.preventDefault();
     // Виклик функції onAddContact для додавання нового контакту і очищення форми
-    onAddContact(formData.name, formData.number);
+    onAddContact({ ...formData });
     setFormData({ name: '', number: '' });
   };
 
